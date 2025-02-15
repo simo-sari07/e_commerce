@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect } from "react"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import { API_ENDPOINTS } from "./config/api"
 
 const CartContext = createContext()
 
@@ -15,7 +16,7 @@ export function CartProvider({ children }) {
       const token = localStorage.getItem("token")
       if (!token) return []
 
-      const response = await fetch("http://localhost:5000/api/cart", {
+      const response = await fetch(API_ENDPOINTS.cart, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -35,7 +36,7 @@ export function CartProvider({ children }) {
       const token = localStorage.getItem("token")
       if (!token) return []
 
-      const response = await fetch("http://localhost:5000/api/wishlist", {
+      const response = await fetch(API_ENDPOINTS.wishlist, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -57,7 +58,7 @@ export function CartProvider({ children }) {
       const existingItem = cartItems.find((item) => item._id === product._id)
       const quantity = existingItem ? existingItem.quantity + 1 : 1
 
-      const response = await fetch("http://localhost:5000/api/cart/items", {
+      const response = await fetch(`${API_ENDPOINTS.cart}/items`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -83,7 +84,7 @@ export function CartProvider({ children }) {
       const token = localStorage.getItem("token")
       if (!token) return
 
-      const response = await fetch(`http://localhost:5000/api/cart/items/${productId}`, {
+      const response = await fetch(`${API_ENDPOINTS.cart}/items/${productId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -104,7 +105,7 @@ export function CartProvider({ children }) {
       const token = localStorage.getItem("token")
       if (!token) return
 
-      const response = await fetch("http://localhost:5000/api/cart/items", {
+      const response = await fetch(`${API_ENDPOINTS.cart}/items`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -133,7 +134,7 @@ export function CartProvider({ children }) {
         return
       }
 
-      const response = await fetch("http://localhost:5000/api/wishlist/products", {
+      const response = await fetch(`${API_ENDPOINTS.wishlist}/products`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -158,7 +159,7 @@ export function CartProvider({ children }) {
       const token = localStorage.getItem("token")
       if (!token) return
 
-      const response = await fetch(`http://localhost:5000/api/wishlist/products/${productId}`, {
+      const response = await fetch(`${API_ENDPOINTS.wishlist}/products/${productId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -189,7 +190,7 @@ export function CartProvider({ children }) {
 
     window.addEventListener("storage", handleStorageChange)
     return () => window.removeEventListener("storage", handleStorageChange)
-  }, [clearCartAndWishlist]) // Added clearCartAndWishlist to dependencies
+  }, []) // Removed clearCartAndWishlist from dependencies
 
   return (
     <CartContext.Provider
