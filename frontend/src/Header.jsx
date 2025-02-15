@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useNavigate, Link } from "react-router-dom"
-import { User, ChevronDown, ShoppingCart, X, Heart, Menu } from "lucide-react"
+import { User, ChevronDown, ShoppingCart, X, Heart, Menu, ShoppingBag, LogOut } from "lucide-react"
 import { useCart } from "./CartContext"
 import SearchBar from "./search"
 
@@ -164,28 +164,31 @@ const Header = ({ user, setUser }) => {
                   <User className="w-6 h-6" />
                 </button>
                 {user && isDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-50">
-                    <div className="px-4 py-2 border-b border-gray-100">
-                      <p className="text-sm font-medium text-gray-900">{user.email}</p>
+                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl py-2 z-50 border border-gray-100">
+                    <div className="px-2">
+                      <Link
+                        to="/profile"
+                        className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-[#f7e7d3] rounded-md group transition-colors"
+                      >
+                        <User className="w-4 h-4 text-gray-400 group-hover:text-[#8b6240]" />
+                        <span className="text-sm">Mon compte</span>
+                      </Link>
+                      <Link
+                        to="/orders"
+                        className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-[#f7e7d3] rounded-md group transition-colors"
+                      >
+                        <ShoppingBag className="w-4 h-4 text-gray-400 group-hover:text-[#8b6240]" />
+                        <span className="text-sm">Mes commandes</span>
+                      </Link>
+                      <div className="h-px bg-gray-100 my-2 mx-3" />
+                      <button
+                        onClick={handleLogout}
+                        className="flex items-center gap-3 px-3 py-2 text-red-600 hover:bg-red-50 rounded-md w-full group transition-colors"
+                      >
+                        <LogOut className="w-4 h-4 text-red-400 group-hover:text-red-600" />
+                        <span className="text-sm">Déconnexion</span>
+                      </button>
                     </div>
-                    <Link
-                      to="/profile"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#f7e7d3] hover:text-[#8b6240]"
-                    >
-                      Mon compte
-                    </Link>
-                    <Link
-                      to="/orders"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#f7e7d3] hover:text-[#8b6240]"
-                    >
-                      Mes commandes
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
-                    >
-                      Déconnexion
-                    </button>
                   </div>
                 )}
               </div>
