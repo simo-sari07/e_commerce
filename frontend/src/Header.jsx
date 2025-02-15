@@ -2,10 +2,9 @@
 
 import { useState, useEffect } from "react"
 import { useNavigate, Link } from "react-router-dom"
-import { User, ChevronDown, ShoppingCart, X, Heart, Package, Menu } from "lucide-react"
+import { User, ChevronDown, ShoppingCart, X, Heart, Menu } from "lucide-react"
 import { useCart } from "./CartContext"
 import SearchBar from "./search"
-import logo from "../public/docs/img/logo.png"
 
 const Header = ({ user, setUser }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
@@ -66,7 +65,6 @@ const Header = ({ user, setUser }) => {
     { title: "Blog", path: "/blog" },
   ]
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (isDropdownOpen && !event.target.closest(".profile-dropdown")) {
@@ -78,7 +76,6 @@ const Header = ({ user, setUser }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [isDropdownOpen])
 
-  // Refetch cart and wishlist when user changes
   useEffect(() => {
     if (user) {
       refetchCart()
@@ -89,16 +86,16 @@ const Header = ({ user, setUser }) => {
   return (
     <>
       {/* Top banner */}
-      <div className="bg-[#8b6240] text-white py-2 text-center text-sm">
+      <div className="bg-gradient-to-r from-[#8b6240] to-[#a67c52] text-white py-3 text-center text-sm font-medium">
         <p>Jusqu'à -50% sur une sélection produit</p>
       </div>
 
-      <header className="bg-white shadow-sm relative">
+      <header className="bg-white shadow-md relative">
         {/* Mobile menu button */}
         <div className="lg:hidden absolute left-4 top-4 z-20">
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="p-2 text-gray-500 hover:text-[#8b6240]"
+            className="p-2 text-[#8b6240] hover:text-[#a67c52]"
           >
             <Menu className="w-6 h-6" />
           </button>
@@ -107,16 +104,31 @@ const Header = ({ user, setUser }) => {
         {/* Upper header with search, logo, and icons */}
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between gap-4">
-            {/* Search bar component */}
-            <div className="hidden md:block relative flex-1 max-w-md">
-              <SearchBar />
-            </div>
-
             {/* Logo */}
             <div className="flex-shrink-0 mx-auto md:mx-0">
-              <Link to="/">
-                <img src={logo} alt="Logo" className="h-20 w-20" />
+              <Link to="/" className="flex items-center">
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 40 40"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="mr-2"
+                >
+                  <circle cx="20" cy="20" r="20" fill="#8b6240" />
+                  <path
+                    d="M10 20C10 14.4772 14.4772 10 20 10C25.5228 10 30 14.4772 30 20C30 25.5228 25.5228 30 20 30C14.4772 30 10 25.5228 10 20Z"
+                    fill="white"
+                  />
+                  <path d="M15 15L25 25M25 15L15 25" stroke="#8b6240" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+                <span className="text-2xl font-bold text-[#8b6240]">E-KECH</span>
               </Link>
+            </div>
+
+            {/* Search bar component */}
+            <div className="hidden md:block relative flex-1 max-w-xl">
+              <SearchBar />
             </div>
 
             {/* Icons */}
@@ -126,11 +138,7 @@ const Header = ({ user, setUser }) => {
                 <SearchBar />
               </div>
 
-              <button className="hidden md:block text-gray-700 hover:text-[#8b6240]">
-                <Package className="w-6 h-6" />
-              </button>
-
-              <button onClick={handleWishlistClick} className="text-gray-700 hover:text-[#8b6240] relative">
+              <button onClick={handleWishlistClick} className="text-[#8b6240] hover:text-[#a67c52] relative">
                 <Heart className="w-6 h-6" />
                 {user && wishlistItems.length > 0 && (
                   <span className="absolute -top-2 -right-2 bg-[#8b6240] text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
@@ -140,7 +148,7 @@ const Header = ({ user, setUser }) => {
               </button>
 
               <button
-                className="text-gray-700 hover:text-[#8b6240] relative"
+                className="text-[#8b6240] hover:text-[#a67c52] relative"
                 onClick={() => setIsCartOpen(!isCartOpen)}
               >
                 <ShoppingCart className="w-6 h-6" />
@@ -152,7 +160,7 @@ const Header = ({ user, setUser }) => {
               </button>
 
               <div className="profile-dropdown relative">
-                <button onClick={handleAccountClick} className="text-gray-700 hover:text-[#8b6240] focus:outline-none">
+                <button onClick={handleAccountClick} className="text-[#8b6240] hover:text-[#a67c52] focus:outline-none">
                   <User className="w-6 h-6" />
                 </button>
                 {user && isDropdownOpen && (
@@ -232,7 +240,7 @@ const Header = ({ user, setUser }) => {
             <div className="p-4">
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="absolute right-4 top-4 text-gray-500 hover:text-[#8b6240]"
+                className="absolute right-4 top-4 text-[#8b6240] hover:text-[#a67c52]"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -335,7 +343,7 @@ const Header = ({ user, setUser }) => {
                   <span className="font-semibold">Total:</span>
                   <span className="font-semibold">{totalPrice.toFixed(2)} €</span>
                 </div>
-                <button className="w-full bg-[#8b6240] text-white py-2 rounded-lg hover:bg-opacity-90 transition-colors">
+                <button className="w-full bg-[#8b6240] text-white py-2 rounded-lg hover:bg-[#a67c52] transition-colors">
                   Passer la commande
                 </button>
               </div>
