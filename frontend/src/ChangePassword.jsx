@@ -1,6 +1,9 @@
+"use client"
+
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { Lock, AlertCircle, CheckCircle, Eye, EyeOff, ArrowLeft } from "lucide-react"
+import { Lock, Eye, EyeOff, ArrowLeft } from "lucide-react"
+import { toast } from "react-toastify"
 
 const ChangePassword = () => {
   const [formData, setFormData] = useState({
@@ -27,13 +30,9 @@ const ChangePassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
-    setMessage({ type: "", content: "" })
 
     if (formData.newPassword !== formData.confirmPassword) {
-      setMessage({
-        type: "error",
-        content: "Les mots de passe ne correspondent pas",
-      })
+      toast.error("Les mots de passe ne correspondent pas")
       setIsLoading(false)
       return
     }
@@ -56,10 +55,7 @@ const ChangePassword = () => {
 
       if (!response.ok) throw new Error(data.error)
 
-      setMessage({
-        type: "success",
-        content: "Mot de passe modifié avec succès",
-      })
+      toast.success("Mot de passe modifié avec succès")
 
       // Clear form
       setFormData({
@@ -73,10 +69,7 @@ const ChangePassword = () => {
         navigate("/profile")
       }, 2000)
     } catch (error) {
-      setMessage({
-        type: "error",
-        content: error.message,
-      })
+      toast.error(error.message)
     } finally {
       setIsLoading(false)
     }
@@ -101,7 +94,7 @@ const ChangePassword = () => {
         <div className="bg-white rounded-lg shadow-sm p-6">
           <h2 className="text-2xl font-semibold text-gray-900 mb-6">Changer le mot de passe</h2>
 
-          {message.content && (
+          {/* {message.content && (
             <div
               className={`mb-6 p-4 rounded-lg flex items-start gap-3 ${
                 message.type === "success" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
@@ -114,7 +107,7 @@ const ChangePassword = () => {
               )}
               <p>{message.content}</p>
             </div>
-          )}
+          )} */}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>

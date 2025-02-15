@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect } from "react"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import { toast } from "react-toastify"
 
 const CartContext = createContext()
 
@@ -50,7 +51,7 @@ export function CartProvider({ children }) {
     mutationFn: async (product) => {
       const token = localStorage.getItem("token")
       if (!token) {
-        alert("Please login to add items to cart")
+        toast.error("Please login to add items to cart")
         return
       }
 
@@ -74,6 +75,10 @@ export function CartProvider({ children }) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["cart"])
+      toast.success("Product added to cart")
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to add product to cart")
     },
   })
 
@@ -129,7 +134,7 @@ export function CartProvider({ children }) {
     mutationFn: async (product) => {
       const token = localStorage.getItem("token")
       if (!token) {
-        alert("Please login to add items to wishlist")
+        toast.error("Please login to add items to wishlist")
         return
       }
 
@@ -149,6 +154,10 @@ export function CartProvider({ children }) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["wishlist"])
+      toast.success("Product added to wishlist")
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to add product to wishlist")
     },
   })
 
@@ -214,3 +223,4 @@ export function CartProvider({ children }) {
 export function useCart() {
   return useContext(CartContext)
 }
+
